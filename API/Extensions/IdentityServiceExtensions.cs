@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using API.Service;
 using Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,7 +34,10 @@ namespace API.Extensions
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                     };
+                    opt.SaveToken = true;
                 });
+
+            builder.Services.AddAuthorization();
 
             builder.Services.AddScoped<TokenService>();
         }
