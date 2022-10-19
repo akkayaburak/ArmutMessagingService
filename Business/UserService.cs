@@ -3,6 +3,7 @@ using Contracts.Entity;
 using Contracts.Interface;
 using Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Business
@@ -24,6 +25,16 @@ namespace Business
             var result = await _userManager.CreateAsync(user, objReq.Password);
             if (!result.Succeeded)
                 throw new Exception();
+            return user;
+        }
+
+        public async Task<AppUser> Find(LoginCommand objReq, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(x => x.UserName == objReq.UserName);
+
+            if (user == null) throw new Exception();
+
             return user;
         }
     }
