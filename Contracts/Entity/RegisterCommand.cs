@@ -1,4 +1,4 @@
-namespace Contracts.DTO
+namespace Contracts.Entity
 {
     public class RegisterCommand
     {

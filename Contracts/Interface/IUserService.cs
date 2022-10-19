@@ -1,9 +1,10 @@
-using Contracts.DTO;
+using Contracts.Entity;
+using Domain;
 
 namespace Contracts.Interface
 {
     public interface IUserService
     {
-        public Task<bool> Register(RegisterCommand objReq, CancellationToken cancellationToken);
+        public Task<AppUser> Register(RegisterCommand objReq, CancellationToken cancellationToken);
     }
 }
