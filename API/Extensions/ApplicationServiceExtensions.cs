@@ -14,7 +14,7 @@ namespace API.Extensions
 
             builder.Services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
