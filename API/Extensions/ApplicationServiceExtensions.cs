@@ -10,6 +10,7 @@ namespace API.Extensions
         public static void RegisterConfigureServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IMessageService, MessageService>();
 
             builder.Services.AddDbContext<DataContext>(opt =>
             {
@@ -17,6 +18,8 @@ namespace API.Extensions
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddSignalR();
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -11,9 +12,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221019194628_MessageFK")]
+    partial class MessageFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,7 +90,10 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("ReceiverId")
+                    b.Property<string>("Receiver")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReceiverIdId")
                         .HasColumnType("text");
 
                     b.Property<string>("SenderId")
@@ -96,7 +101,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiverId");
+                    b.HasIndex("ReceiverIdId");
 
                     b.HasIndex("SenderId");
 
@@ -105,15 +110,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Message", b =>
                 {
-                    b.HasOne("Domain.AppUser", "Receiver")
+                    b.HasOne("Domain.AppUser", "ReceiverId")
                         .WithMany()
-                        .HasForeignKey("ReceiverId");
+                        .HasForeignKey("ReceiverIdId");
 
                     b.HasOne("Domain.AppUser", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId");
 
-                    b.Navigation("Receiver");
+                    b.Navigation("ReceiverId");
 
                     b.Navigation("Sender");
                 });

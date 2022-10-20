@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -11,9 +12,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221019193857_Message")]
+    partial class Message
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,34 +90,15 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("ReceiverId")
+                    b.Property<string>("Receiver")
                         .HasColumnType("text");
 
-                    b.Property<string>("SenderId")
+                    b.Property<string>("Sender")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("Domain.Message", b =>
-                {
-                    b.HasOne("Domain.AppUser", "Receiver")
-                        .WithMany()
-                        .HasForeignKey("ReceiverId");
-
-                    b.HasOne("Domain.AppUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId");
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
                 });
 #pragma warning restore 612, 618
         }
