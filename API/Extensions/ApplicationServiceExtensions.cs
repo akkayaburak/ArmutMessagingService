@@ -10,6 +10,7 @@ namespace API.Extensions
         public static void RegisterConfigureServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IMessageService, MessageService>();
 
             builder.Services.AddDbContext<DataContext>(opt =>
             {
