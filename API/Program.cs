@@ -1,5 +1,6 @@
 
 using API.Extensions;
+using API.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<ChatHub>("/chatHub");
 
 
 app.MapControllers();
