@@ -16,6 +16,8 @@ namespace API.SignalR
         public override Task OnConnectedAsync()
         {
             Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+            var result = _service.Get(Context.User.Identity.Name);
+            Clients.Caller.SendAsync("LoadMessages", result);
             return base.OnConnectedAsync();
         }
 
@@ -23,7 +25,8 @@ namespace API.SignalR
         {
             _service.Insert(command);
             //message send to receiver only
-            return Clients.Group(command.Receiver).SendAsync("ReceiveMessage", command.Sender, command.Content);
+            return Clients.Group(command.Receiver)
+                .SendAsync("ReceiveMessage", command.Sender, command.Content);
         }
     }
 }

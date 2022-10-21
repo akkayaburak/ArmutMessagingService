@@ -1,13 +1,13 @@
 using AutoMapper;
+using Contracts.DTO;
 using Contracts.Entity;
 using Contracts.Interface;
 using Domain;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Business
 {
-    public class MessageService : IMessageService
+    public class MessageService : BaseService, IMessageService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -34,6 +34,27 @@ namespace Business
             };
             var result = _context.Messages.Add(message);
             return _context.SaveChanges() > 0;
+        }
+
+        //TODO: DEFINITELY NEEDS REFACTOR :(
+        //TODO: Paging?
+        public MessagesDTO Get(string sender)
+        {
+            string userId = _context.Users.SingleOrDefault(x => x.UserName == sender)?.Id;
+            if (userId == null)
+                return null;
+
+            MessagesDTO messagesDTO = new MessagesDTO();
+
+            var allMessages = _context.Messages.Where(x => x.ReceiverId == userId || x.SenderId == userId);
+
+            messagesDTO.Sender = sender;
+            messagesDTO.SenderMessages = allMessages.Where(x => x.SenderId == userId).Select(s => s.Content).ToList();
+
+            messagesDTO.Receiver = allMessages.FirstOrDefault(x => x.SenderId == sender)?.ReceiverId;
+            messagesDTO.ReceiverMessages = allMessages.Where(x => x.ReceiverId == messagesDTO.Receiver).Select(s => s.Content).ToList();
+
+            return messagesDTO;
         }
     }
 }
