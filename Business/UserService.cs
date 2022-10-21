@@ -8,7 +8,7 @@ using Persistence;
 
 namespace Business
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
