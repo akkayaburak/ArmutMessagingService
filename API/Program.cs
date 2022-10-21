@@ -9,10 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(opt =>
+builder.Services.AddControllers()
+.AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
 });
+
 
 builder.RegisterConfigureServices();
 builder.AddIdentityServices();

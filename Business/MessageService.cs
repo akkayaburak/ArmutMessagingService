@@ -20,10 +20,12 @@ namespace Business
         //TODO: DEFINITELY NEEDS REFACTOR
         public bool Insert(MessageCommand objReq)
         {
-            // if (!_context.Users.Any(x => x.UserName == objReq.Receiver) || !_context.Users.Any(x => x.UserName == objReq.Sender))
-            //     throw new Exception();
+
             var users = _context.Users.Where(x => x.UserName == objReq.Receiver || x.UserName == objReq.Sender)
                 .ToList();
+
+            if (users == null)
+                throw new Exception("Lütfen kullanıcıların bilgilerini doğru giriniz.");
 
             var message = new Message
             {
