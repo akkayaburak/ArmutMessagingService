@@ -19,5 +19,11 @@ cd ArmutMessagingService
 docker-compose up
 ```
 
+## Refactors
+- Almost all of the ```MessageService``` needs refactor. Highly depends on ```LINQ``` and logic is sensitive.
+- Some sort of ```Session``` must be implemented.
+- ```ChatHub```needs more error handling.
+- Architecture needs to be more clear.
+
 ## License
 [MIT](https://github.com/akkayaburak/ArmutMessagingService/blob/main/LICENSE)
